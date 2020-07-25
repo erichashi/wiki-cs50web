@@ -2,6 +2,13 @@ from django.shortcuts import render
 
 from . import util
 
+def check_entries(input):
+    entries = util.list_entries()
+    for entry in entries:
+        if entry.lower() == input.lower():
+            return True
+    return False
+
 
 def index(request):
     if request.method == "POST":
@@ -27,30 +34,12 @@ def index(request):
                         break
                     i += 1
 
-
-
-        
-            
-        
-        
-
-            
-
         return render(request, "encyclopedia/searchpage.html", {
             "input": input,
             "results": results
         })
         
-        
-
-
-        return render(request, "encyclopedia/searchpage.html", {
-            "input": input,
-            "results": []
-    
-        })
-
-
+    #if request.method == "GET":
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
@@ -65,3 +54,21 @@ def get_entry(request, title):
             "content": content
         })
 
+def create_new(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        #check if hte title is already in ency
+        if(check_entries(title)):
+            #print('There is a page with this title!!')
+            return render(request, "encyclopedia/create.html", {
+                "message": "Fail: there is already a page with this title."
+            })
+        #otherwise, save entry and go to entrys page
+        content = request.POST["content"]
+        util.save_entry(title, content)
+        return render(request, "encyclopedia/entrypage.html", {
+            "title": title,
+            "content": content
+        })
+
+    return render(request, "encyclopedia/create.html")
