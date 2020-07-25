@@ -5,13 +5,14 @@
 {% endblock %}
 
 {% block nav %}
-<h2>Results: </h2>
+<h3>Results: </h3>
 <ul>
-    {% for reslt in results %}
-        <li>{{reslt}} </li>
+    {% for result in results %}
+    <a href="{% url 'titleEntry' result.title %}">{{ result }}</a></li>
     {% empty %}
-        No pages found named "{{ title }}"
+    No pages found under the name "{{ input }}"
+    {% endfor %}
 </ul> 
 
-{{content}}
+
 {% endblock %}
