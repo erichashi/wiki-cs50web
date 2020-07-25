@@ -1,0 +1,17 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block nav %}
+<h2>Results: </h2>
+<ul>
+    {% for reslt in results %}
+        <li>{{reslt}} </li>
+    {% empty %}
+        No pages found named "{{ title }}"
+</ul> 
+
+{{content}}
+{% endblock %}
