@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from . import util
+from random import choice
 
 def check_entries(input):
     entries = util.list_entries()
@@ -86,3 +87,12 @@ def edit_page(request, title):
         "title": title,
         "content": content
     })
+
+def random(request):
+    chosen = choice(util.list_entries())
+    print(chosen)
+    return render(request, "encyclopedia/entrypage.html", {
+        "title": chosen.capitalize(),
+        "content": util.get_entry(chosen)
+    })
+
